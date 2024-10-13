@@ -1,0 +1,24 @@
+#ifndef HUMANB_HPP
+#define HUMANB_HPP
+#include "Weapon.hpp"
+
+// HumanB may not always have a Weapon
+
+class   HumanB{
+
+    private:
+
+        std::string _name;
+        Weapon* _myWeapon;
+    
+    public:
+    
+        HumanB( std::string name );
+        ~HumanB( void );
+
+        void    attack( void ) const;
+        void    setWeapon(Weapon &weapon);
+
+};
+
+#endif
