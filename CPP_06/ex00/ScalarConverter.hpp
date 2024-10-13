@@ -1,24 +1,19 @@
 #ifndef SCALARCONVERTER_HPP
 # define SCALARCONVERTER_HPP
 # include <iostream>
-//# include <typeinfo>
-
-enum TypeName{
-    CHAR,
-    INT,
-    FLOAT,
-    DOUBLE,
-    WRONG
-};
 
 class ScalarConverter
 {
+    private:
+        
+        ScalarConverter();
+        ScalarConverter(const ScalarConverter & other);
+        ~ScalarConverter();
+    
     public:
-
-        /* pure virtual destructor to prevent an instantinatoin */
-        virtual ~ScalarConverter() = 0;
         
         /* static method */
+
         static  void convert(const std::string & str);
 };
 
