@@ -49,16 +49,19 @@ int main(void){
 
 4. **static cast**
 
+-> compile-time conversion, used for explicit conversions that are considered safe by the compiler
+
+-> used to convert between related types, 
+such as numeric types or pointers in the same
+inheritance hierarchy 
+
 int main(void){
 
     int a = 42; // reference value
     double b = a; // ok
     int c = b; // doesn't work
-    int d = static_cast<int>(b); // ok
+    int d = static_cast<int>(b); // ok, the fractional part will be truncated
 }
-
-// static_cast is used between compatible addresses
-in the same inheritance tree
 
 int main(void){
     
@@ -73,11 +76,16 @@ int main(void){
 
 5. **dynamic cast**
 
+-> mainly uset to perform downcasting (converting
+a pointer/reference of a base class to a derived class)
+
 -> it's happenning at the runtime and not during the compilation; programm may compile but dynamic cast may fail at runtime
 
 -> it only works with polymorphic instances (at least one of the function in your class has to be virtual)
 
 -> it's useful when you don't know the actual type of your object/value
+
+-> it the conversion is not possible : returns NULL/bad_cast exception
 
 class Parent {public : virtual ~Parent(void){}};
 
@@ -116,6 +124,11 @@ int main(void){
 
 7. **const cast**
 
+-> used to modify the const or volatile qualifier of a variable
+
+-> it allow to temporarily remove the constancy of an object
+and make modifications
+
 -> do it, but be sure you have a good reason 
 
 int main(void){
@@ -146,3 +159,7 @@ int main(void){
 
 -> say to compiler that our constructor
 needs an explicit conversion
+
+![alt text](<Screenshot from 2024-10-15 14-03-32.png>)
+
+for more info: https://cplusplus.com/doc/tutorial/typecasting/
