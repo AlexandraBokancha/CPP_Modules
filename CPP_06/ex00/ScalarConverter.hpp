@@ -2,8 +2,18 @@
 # define SCALARCONVERTER_HPP
 # include <iostream>
 
+enum ScalarTypes{
+    CHAR,
+    INT,
+    FLOAT,
+    DOUBLE
+};
+
 class ScalarConverter
 {
+        /* to prevent an instanciation wi will put a 
+        constructor to private */
+
     private:
         
         ScalarConverter();
