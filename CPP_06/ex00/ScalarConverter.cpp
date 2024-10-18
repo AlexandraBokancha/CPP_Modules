@@ -42,7 +42,9 @@ bool isFloatingPoint(const std::string & str){
     // float
     
     if (*endptr == 'f' && *(endptr + 1) == '\0'){
-        if (errno == ERANGE && (nb == FLT_MAX || nb == FLT_MIN))
+
+        if (errno == ERANGE && (nb == HUGE_VAL || nb == -HUGE_VAL) && \
+            (nb > std::numeric_limits<float>::max() || nb < std::numeric_limits<float>::min()))
             return false;
         if (nb < CHAR_MIN || nb > CHAR_MAX)
             std::cout << "char: impossible" << std::endl; 
@@ -54,16 +56,17 @@ bool isFloatingPoint(const std::string & str){
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
-        std::cout << "float: " << static_cast<float>(nb) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(nb) << ".0" << std::endl;
+        std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
+            << "f" << std::endl;
+        std::cout << "double: " << static_cast<double>(nb) << std::endl;
         return true;
     }
 
     // double
     
     if (*endptr == '\0'){
-        if (errno == ERANGE && (nb > std::numeric_limits<double>::max() \
-            || nb < std::numeric_limits<double>::min()))
+        if (errno == ERANGE && (nb == HUGE_VAL || nb == -HUGE_VAL) && \
+            (nb > std::numeric_limits<double>::max() || nb < std::numeric_limits<double>::min()))
                 return false;
         if (nb < CHAR_MIN || nb > CHAR_MAX)
             std::cout << "char: impossible" << std::endl; 
@@ -75,7 +78,8 @@ bool isFloatingPoint(const std::string & str){
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
-        std::cout << "float: " << static_cast<float>(nb) << ".0f" << std::endl;
+        std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
+            << "f" << std::endl;
         std::cout << "double: " << static_cast<double>(nb) << std::endl;
         return true;
     }
@@ -90,17 +94,19 @@ the number */
 bool isInt(const std::string & str){
     char* endptr;
     long nb = std::strtol(str.c_str(), &endptr, 10);
-    // overflow
     if (*endptr == '\0'){
-        // if (errno == ERANGE && (nb == LONG_MAX || nb == LONG_MIN))
-        //     return false;
+        if (errno == ERANGE && (nb == LONG_MAX || nb == LONG_MIN))
+            return false;
         if (nb < CHAR_MIN || nb > CHAR_MAX)
             std::cout << "char: impossible" << std::endl; 
         else if (!std::isprint(static_cast<char>(nb)))
             std::cout << "char: Non displayable" << std::endl;
         else
             std::cout << "char: '" << static_cast<char>(nb) << "'" << std::endl;
-        std::cout << "int: " << nb << std::endl;
+        if (nb > INT_MAX || nb < INT_MIN)
+            std::cout << "int: impossible" << std::endl;
+        else
+            std::cout << "int: " << static_cast<int>(nb) << std::endl;
         std::cout << "float: " << static_cast<float>(nb) << ".0f" << std::endl;
         std::cout << "double: " << static_cast<double>(nb) << ".0" << std::endl;
         return true;
@@ -110,11 +116,10 @@ bool isInt(const std::string & str){
 
 bool isChar(const std::string & str){
      if (str.size() == 1 && std::isprint(str[0]) && !std::isdigit(str[0])){
-        char c = static_cast<char>(str[0]);
-        std::cout << "char: '" << c << "'" << std::endl;
-        std::cout << "int: " << static_cast<int>(c) << std::endl;
-        std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
+        std::cout << "char: '" << static_cast<char>(str[0]) << "'" << std::endl;
+        std::cout << "int: " << static_cast<int>(str[0]) << std::endl;
+        std::cout << "float: " << static_cast<float>(str[0]) << ".0f" << std::endl;
+        std::cout << "double: " << static_cast<double>(str[0]) << ".0" << std::endl;
         return true;
     }
     return false;

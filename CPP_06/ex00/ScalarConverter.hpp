@@ -1,12 +1,14 @@
 #ifndef SCALARCONVERTER_HPP
 # define SCALARCONVERTER_HPP
 # include <iostream>
+# include <iomanip>
 # include <string>
 # include <cstdlib>
 # include <limits>
 # include <climits>
 # include <cerrno>
 # include <cfloat>
+# include <cmath>
 
 class ScalarConverter
 {
