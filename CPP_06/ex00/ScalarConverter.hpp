@@ -1,13 +1,12 @@
 #ifndef SCALARCONVERTER_HPP
 # define SCALARCONVERTER_HPP
 # include <iostream>
-
-enum ScalarTypes{
-    CHAR,
-    INT,
-    FLOAT,
-    DOUBLE
-};
+# include <string>
+# include <cstdlib>
+# include <limits>
+# include <climits>
+# include <cerrno>
+# include <cfloat>
 
 class ScalarConverter
 {

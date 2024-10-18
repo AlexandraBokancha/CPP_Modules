@@ -1,7 +1,9 @@
 #include "ScalarConverter.hpp"
 
-int main(){
-    //ScalarConverter conv;
-    ScalarConverter::convert("50");
+int main(int ac, char **av){
+    if (ac == 2)
+        ScalarConverter::convert(av[1]);
+    else
+        std::cout << "Usage: ./converter |literal|" << std::endl;
     return 0;
 }
