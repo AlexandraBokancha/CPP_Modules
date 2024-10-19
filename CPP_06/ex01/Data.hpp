@@ -2,7 +2,8 @@
 # define DATA_HPP
 
 struct Data{
-
+    int nb;
+    std::string str;
 };
 
 #endif

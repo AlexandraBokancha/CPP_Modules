@@ -56,7 +56,10 @@ bool isFloatingPoint(const std::string & str){
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
-        std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
+        if (nb > FLT_MAX|| nb < FLT_MIN)
+            std::cout << "float: impossible" << std::endl;
+        else
+            std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
             << "f" << std::endl;
         std::cout << "double: " << static_cast<double>(nb) << std::endl;
         return true;
@@ -78,7 +81,10 @@ bool isFloatingPoint(const std::string & str){
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
-        std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
+        if (nb > FLT_MAX|| nb < FLT_MIN)
+            std::cout << "float: impossible" << std::endl;
+        else
+            std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
             << "f" << std::endl;
         std::cout << "double: " << static_cast<double>(nb) << std::endl;
         return true;
