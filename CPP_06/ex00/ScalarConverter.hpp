@@ -12,7 +12,7 @@
 
 class ScalarConverter
 {
-        /* to prevent an instanciation wi will put a 
+        /* to prevent an instanciation we will put a 
         constructor to private */
 
     private:
