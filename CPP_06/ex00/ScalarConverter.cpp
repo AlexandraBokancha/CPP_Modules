@@ -56,12 +56,12 @@ bool isFloatingPoint(const std::string & str){
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
-        if (nb > FLT_MAX|| nb < FLT_MIN)
+        if (nb > std::numeric_limits<float>::max() || nb < -std::numeric_limits<float>::max())
             std::cout << "float: impossible" << std::endl;
         else
             std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
             << "f" << std::endl;
-        std::cout << "double: " << static_cast<double>(nb) << std::endl;
+        std::cout << "double: " << nb << std::endl;
         return true;
     }
 
@@ -81,12 +81,12 @@ bool isFloatingPoint(const std::string & str){
             std::cout << "int: impossible" << std::endl;
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
-        if (nb > FLT_MAX|| nb < FLT_MIN)
+        if (nb > std::numeric_limits<float>::max() || nb < -std::numeric_limits<float>::max())
             std::cout << "float: impossible" << std::endl;
         else
             std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(nb) \
             << "f" << std::endl;
-        std::cout << "double: " << static_cast<double>(nb) << std::endl;
+        std::cout << "double: " << nb << std::endl;
         return true;
     }
     return false;
@@ -114,7 +114,7 @@ bool isInt(const std::string & str){
         else
             std::cout << "int: " << static_cast<int>(nb) << std::endl;
         std::cout << "float: " << static_cast<float>(nb) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(nb) << ".0" << std::endl;
+        std::cout << "double: " << static_cast<double>(nb) << ".0"<< std::endl;
         return true;
     }
     return false;
@@ -124,8 +124,9 @@ bool isChar(const std::string & str){
      if (str.size() == 1 && std::isprint(str[0]) && !std::isdigit(str[0])){
         std::cout << "char: '" << static_cast<char>(str[0]) << "'" << std::endl;
         std::cout << "int: " << static_cast<int>(str[0]) << std::endl;
-        std::cout << "float: " << static_cast<float>(str[0]) << ".0f" << std::endl;
-        std::cout << "double: " << static_cast<double>(str[0]) << ".0" << std::endl;
+        std::cout << "float: " << std::fixed << std::setprecision(1) << static_cast<float>(str[0]) \
+            << "f" << std::endl;
+        std::cout << "double: " << static_cast<double>(str[0]) << std::endl;
         return true;
     }
     return false;
