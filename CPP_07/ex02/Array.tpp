@@ -53,7 +53,7 @@ const Array<T> &Array<T>::operator=(const Array & rhs){
 
 template <typename T>
 unsigned int Array<T>::size() const{
-	return this->_arraySize;
+	return this->_arraySizcd e;
 }
 
 template <typename T>
