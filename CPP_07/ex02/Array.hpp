@@ -4,7 +4,6 @@
 # include <exception>
 # include <cstdlib>
 
-// p. 1050 for class template
 template <typename T>
 class Array{
 

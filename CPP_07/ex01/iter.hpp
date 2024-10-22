@@ -11,6 +11,7 @@ void iter(T *arr, const size_t len,  void (*f)(T &)){
         f(arr[i]);
 }
 
+// pour les fonctions qui modifie pas le array
 template <typename T>
 void iter(const T *arr, const size_t len,  void (*f)(const T &)){
     for (size_t i = 0; i < len; i++)
@@ -28,7 +29,7 @@ void printArray(const T & c){
 }
 
 template <typename T>
-void convertToAscii(const T & c){
+void convertToAscii(T & c){
     for (size_t i = 0; i < c.size(); i++){
         std::cout << "ASCII number for " << c[i] << " is : " << static_cast<int>(c[i]) << std::endl;
     }

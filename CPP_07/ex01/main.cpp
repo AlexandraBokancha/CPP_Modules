@@ -10,7 +10,7 @@ int main(){
     ::iter(nums, len1, &multiplyBy10);
     std::cout << "Nums after multiplication by 10: " << std::endl;
     ::iter(nums, len1, &printArray);
-     std::cout << std::endl;
+    std::cout << std::endl;
 
     std::cout << "*** TEST2 ***" << std::endl;
     double nums2[] = {10.2, 20.2, 30.2};
