@@ -1,6 +1,8 @@
 #ifndef ARRAY_HPP
-#define ARRAY_HPP
-#include <iostream>
+# define ARRAY_HPP
+# include <iostream>
+# include <exception>
+# include <cstdlib>
 
 // p. 1050 for class template
 template <typename T>
@@ -8,26 +10,36 @@ class Array{
 
     private:
 
-        T *aptr; // to point to the allocated array
-        int arraySize; // number of elements in the array
-        void subError(); // Handles subscripts out of range
+        T *_aptr; // to point to the allocated array
+        unsigned int _arraySize; // number of elements in the array
+		void memError(); //handles memory allocation errors
     
-    public:
+	public:
 
         // Default constructor 
         Array();
         // Parametric constructor (n: for nb of elements)
         Array(unsigned int n);
         // Copy constructor 
-        Array(const Array &);
+        Array(const Array & other);
         // Destructor
         ~Array();
         // Assignement operator
-        Array &operator=(const Array & other);
+        const Array &operator=(const Array & rhs);
         // Overloaded [] operator
-        T &operator[](const int &);
+        T &operator[](const int &); // reading and writing
+		const T &operator[](const int &) const; // for reading only
         
-        int size() const;
+		// Accesor to return a specific element 
+        unsigned int size() const;
+
 };
+
+class SubscriptOutOfBounds: public std::exception {
+	public:
+		virtual const char* what() const throw();
+};
+
+# include "Array.tpp"
 
 #endif

@@ -4,8 +4,7 @@ CC = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3 -Wconversion
 
-SRCS = main.cpp \
-		Array.cpp
+SRCS = main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
