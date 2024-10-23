@@ -23,3 +23,5 @@ Advantages of a vector over an array:
 elements from it at runtime. The vector automatically adjusts its size
 according to the number of elements it contains;
 - A vector can report the number of elements it contains;
+
+![alt text](<Screenshot from 2024-10-23 11-06-58.png>)
