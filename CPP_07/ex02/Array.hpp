@@ -11,7 +11,7 @@ class Array{
 
         T *_aptr; // to point to the allocated array
         unsigned int _arraySize; // number of elements in the array
-		void memError(); //handles memory allocation errors
+		void memError(); // handles memory allocation errors
     
 	public:
 
