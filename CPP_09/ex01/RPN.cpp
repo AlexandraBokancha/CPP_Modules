@@ -99,10 +99,9 @@ void RPN::evaluateExpression(const std::string & expressionStr){
         "*"
     };
     while (ss >> val){
-
-        // add check if it's less than 10 but greater then 0
-        if (isdigit(*val.c_str()))
+        if (val.size() == 1 && isdigit(*val.c_str())){
             pushToStack(atoi(val.c_str()));
+        }
         else
         {
             for (int i = 0; i < 4; ++i){
