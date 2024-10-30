@@ -6,10 +6,13 @@ int main(int ac, char *av[]){
             std::string str = av[1];
             BitcoinExchange btc(str);
         }
-        else
+        else{
             std::cout << "Usage: ./bts |input file|" << std::endl;
+            return 1;
+        }
     }
     catch (std::exception & e){
         std::cout << e.what() << std::endl;
     }
+    return 0;
 }
