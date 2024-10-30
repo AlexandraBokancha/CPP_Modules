@@ -5,14 +5,13 @@
 # include <fstream>
 # include <string>
 # include <iterator>
-# include <vector>
 # include <sstream>
-# include <stdlib.h>
+# include <algorithm>
 
 /* 
-1. open an input file
-2. parse to check the format
-3. upload data.csv to a map
+1. upload data.csv to a map
+2. open an input file
+3. parse to check the format
 4. check the value from input file in data.csv
 5. display result
 */
@@ -20,22 +19,24 @@
 class BitcoinExchange
 {
     private: 
-        const char * _fileName;
-        std::map<std::string, float> _data;
-        std::map<std::string, float > _fileContent;
+
+        std::string _fileName;
+        std::multimap<std::string, float> _data;
+        void    initialize(const std::string & fileName);
 
     public:
+
         BitcoinExchange(void);
-        BitcoinExchange(const char * fileName);
+        explicit BitcoinExchange(const std::string & fileName);
         BitcoinExchange(const BitcoinExchange& other);
         BitcoinExchange &operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
 
-        void loadInputFile(const char * fileName);
-        void displayFileContent();
-        bool isValidDate(std::string & date);
-        bool isValidValue(std::string & value);
-        void convert(std::map<std::string, std::vector<float> > fileContent);
+        void    loadDataBase();
+        void    loadInputFile(const std::string & fileName);
+        bool    isValidDate(const std::string & date) const;
+        bool    isValidValue(const std::string & value) const;
+        float   getRateFromData(const std::string & date) const;
 };
 
 #endif

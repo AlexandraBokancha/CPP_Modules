@@ -1,57 +1,67 @@
 #include "BitcoinExchange.hpp"
 
 // Default constructor
-BitcoinExchange::BitcoinExchange(void): _fileName("input.txt")
-{
+BitcoinExchange::BitcoinExchange(void){
   //  std::cout << "Default constructor called" << std::endl;
-    loadInputFile(_fileName);
-    return ;
+    initialize("input.txt");
 }
-// Default constructor
-BitcoinExchange::BitcoinExchange(const char *fileName): _fileName(fileName)
-{
+
+// Parametric constructor
+BitcoinExchange::BitcoinExchange(const std::string & fileName){
    // std::cout << "Parametric constructor called" << std::endl;
-    loadInputFile(_fileName);
-    return ;
+    initialize(fileName);
 }
 
 // Copy constructor
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
-{
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) : _fileName(other._fileName), _data(other._data){
     std::cout << "Copy constructor called" << std::endl;
-    (void) other;
-    return ;
 }
 
 // Assignment operator overload
-BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
-{
+BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other){
     std::cout << "Assignment operator called" << std::endl;
-    (void) other;
-    return (*this);
+    if (this != &other){
+        this->_fileName = other._fileName;
+        this->_data = other._data;
+    }
+    return *this;
 }
 
 // Destructor
-BitcoinExchange::~BitcoinExchange(void)
-{
+BitcoinExchange::~BitcoinExchange(void){
    // std::cout << "Destructor called" << std::endl;
-    return ;
 }
-void BitcoinExchange::displayFileContent() {
-    for (std::map<std::string, std::vector<float> >::iterator it = _fileContent.begin(); it != _fileContent.end(); ++it) {
-        std::cout << "Date: " << it->first << " | Values: ";
-        for (std::vector<float>::iterator valueIt = it->second.begin(); valueIt != it->second.end(); ++valueIt) {
-            std::cout << *valueIt << std::endl;
+
+void BitcoinExchange::initialize(const std::string & fileName){
+    _fileName = fileName;
+    loadDataBase();
+    loadInputFile(_fileName);
+}
+
+void BitcoinExchange::loadDataBase(){
+    std::ifstream   db_file;
+    std::string     line;
+    db_file.open("data.csv");
+    if (!db_file){
+        throw std::runtime_error("Error: could not open file");
+    }
+    std::getline(db_file, line);
+    while (std::getline(db_file, line)){
+        std::istringstream ss(line);
+        std::string date;
+        float rate;
+        if (std::getline(ss, date, ',') && ss >> rate){
+            _data.insert(std::make_pair(date, rate));
         }
     }
+    db_file.close();
 }
 
-
-bool BitcoinExchange::isValidDate(std::string & date){
-  if (date.size() != 11 || date[4] != '-' || date[7] != '-'){
-        std::cout << "Wrong date format => " << date.size() << std::endl;
+bool BitcoinExchange::isValidDate(const std::string & date) const{
+    if (date.size() != 11 || date[4] != '-' || date[7] != '-'){
         return false;
     }
+
     std::string year = date.substr(0, 4);
     std::string month = date.substr(5, 2);
     std::string day = date.substr(8, 2);
@@ -63,60 +73,73 @@ bool BitcoinExchange::isValidDate(std::string & date){
     std::istringstream(day) >> tmpDay;
 
     if (tmpMonth > 12 || !tmpYear || !tmpMonth || !tmpDay){
-        std::cout << "Wrong date format => " << date << std::endl;
         return false;
     }
     unsigned short monthlen[]={31,28,31,30,31,30,31,31,30,31,30,31};
-    if ((!(tmpYear%4) && (tmpYear%100)) || !(tmpYear%400)) // check if year is a leap year
+   
+    if ((!(tmpYear%4) && (tmpYear%100)) || !(tmpYear%400)){ // check if year is a leap year
         monthlen[1]++;
+    }
     if (tmpDay > monthlen[tmpMonth - 1]){
-        std::cout << "Wrong day format => " << date << std::endl;
         return false;
     }
     return true;
 }
 
-bool BitcoinExchange::isValidValue(std::string & valueStr){
+bool BitcoinExchange::isValidValue(const std::string & valueStr) const{
+    std::istringstream iss(valueStr);
     float value;
-    value = static_cast<float>(std::atof(valueStr.c_str()));
-    if (value < 0){
-        std::cout << "Error: not a positive number." << std::endl;
+    if (!(iss >> value) || value < 0){
+        std::cerr << "Error: not a positive number." << std::endl;
         return false;
     }
     else if (value > 1000){
-        std::cout << "Error: too large a number." << std::endl;
+        std::cerr << "Error: too large a number." << std::endl;
         return false;
     }
     return true;
 }
 
-void BitcoinExchange::convert(std::map<std::string, std::vector<float> > fileContent){
-    (void)fileContent;
-    displayFileContent();
+float BitcoinExchange::getRateFromData(const std::string & date) const{
+    std::multimap<std::string, float>::const_iterator low = _data.lower_bound(date);
+    if (low != _data.end() && low->first == date){
+        return low->second;
+    }
+    if (low != _data.begin()){
+        --low;
+        return low->second;
+    }
+    return 0.0f;
 }
 
-void BitcoinExchange::loadInputFile(const char * fileName){
+void BitcoinExchange::loadInputFile(const std::string & fileName){
     std::ifstream inputFile;
-    inputFile.open(fileName);
-    if (!inputFile)
-        std::cerr << "Error: could not open file" << std::endl;
     std::string line;
+    inputFile.open(fileName.c_str());
+    if (!inputFile){
+        throw std::runtime_error("Error: could not open file");
+    }
+    if (!std::getline(inputFile, line) || line != "date | value"){
+        throw std::runtime_error("Error: invalid input file format");
+    }
     while (std::getline(inputFile, line)){
         std::istringstream ss(line);
-        std::string key, valueStr;
-        if (line == "date | value")
-            continue;
-        if (std::getline(ss, key, '|') && std::getline(ss, valueStr)){
-            if (!isValidDate(key))
+        std::string date, valueStr;
+        if (std::getline(ss, date, '|') && std::getline(ss, valueStr)){
+            if (!isValidDate(date)){
+                std::cerr << "Wrong date format => " << date << std::endl;
                 continue;
-            if (isValidValue(valueStr)){
-                float value = static_cast<float>(std::atof(valueStr.c_str()));
-                _fileContent[key].push_back(value);
             }
+            date.erase(std::remove(date.begin(), date.end(), ' '), date.end());
+            if (!isValidValue(valueStr)){
+                continue;
+            }
+            float value = static_cast<float>(std::atof(valueStr.c_str()));
+            float rate = getRateFromData(date);
+            std::cout << date << " => " << value << " = " << rate * value << std::endl;
         }
         else
            std::cerr << "Error: bad input => " << line << std::endl;
     }
     inputFile.close();
-    convert(_fileContent);
 }
