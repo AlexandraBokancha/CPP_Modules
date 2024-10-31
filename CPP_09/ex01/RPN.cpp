@@ -98,6 +98,7 @@ void RPN::evaluateExpression(const std::string & expressionStr){
         "/",
         "*"
     };
+    bool    operationFound = false;
     while (ss >> val){
         if (val.size() == 1 && isdigit(*val.c_str())){
             pushToStack(atoi(val.c_str()));
@@ -107,11 +108,12 @@ void RPN::evaluateExpression(const std::string & expressionStr){
             for (int i = 0; i < 4; ++i){
                 if (val == tokens[i]){
                     (this->*fnPtr[i])();
+                    operationFound = true;
                     break ;
                 }
-                else if (i == 3){
-                    throw std::runtime_error("Error: value is not valid");
-                }
+            }
+            if (!operationFound){
+                throw std::runtime_error("Error: value is not valid");
             }
         }
     }
@@ -119,9 +121,9 @@ void RPN::evaluateExpression(const std::string & expressionStr){
 }
 
 const char* RPN::NotEnoughValues::what() const throw(){
-    return "\033[31mNot enough values on stack for operation\033[0m";
+    return "\033[31mNot enough values on stack for the requested operation\033[0m";
 }
 
 const char* RPN::DivisionByZero::what() const throw(){
-    return "\033[31mDivision by 0 is not possible\033[0m";
+    return "\033[31mDivision by zero encountered\033[0m";
 }

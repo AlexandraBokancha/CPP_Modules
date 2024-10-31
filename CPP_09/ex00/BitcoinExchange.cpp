@@ -32,6 +32,14 @@ BitcoinExchange::~BitcoinExchange(void){
    // std::cout << "Destructor called" << std::endl;
 }
 
+/* 
+1. upload data.csv to a map
+2. open an input file
+3. parse to check the format
+4. check the value from input file in data.csv
+5. display result
+*/
+
 void BitcoinExchange::initialize(const std::string & fileName){
     _fileName = fileName;
     loadDataBase();

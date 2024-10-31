@@ -8,35 +8,37 @@
 # include <sstream>
 # include <algorithm>
 
-/* 
-1. upload data.csv to a map
-2. open an input file
-3. parse to check the format
-4. check the value from input file in data.csv
-5. display result
-*/
-
 class BitcoinExchange
 {
-    private: 
-
-        std::string _fileName;
-        std::multimap<std::string, float> _data;
-        void    initialize(const std::string & fileName);
-
     public:
-
+        // Constructors, Destructor, Assignment Operator
         BitcoinExchange(void);
         explicit BitcoinExchange(const std::string & fileName);
         BitcoinExchange(const BitcoinExchange& other);
         BitcoinExchange &operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
 
+        // Load data from a file
         void    loadDataBase();
         void    loadInputFile(const std::string & fileName);
+        
+        // Check if date and value from input file are valid
         bool    isValidDate(const std::string & date) const;
         bool    isValidValue(const std::string & value) const;
+        
+        // Retrieve the exchange rate for a specific date from the database
         float   getRateFromData(const std::string & date) const;
+    
+    private: 
+
+        // Name of the input file to load data from
+        std::string _fileName;
+
+        // Multimap to store exchange rate data with date as the key
+        std::multimap<std::string, float> _data;
+
+        // Helper function to initialize data from the specified file
+        void    initialize(const std::string & fileName);
 };
 
 #endif
