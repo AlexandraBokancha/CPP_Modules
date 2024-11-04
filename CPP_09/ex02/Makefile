@@ -5,7 +5,7 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g3 -Wconversion
 
 SRCS =  main.cpp \
-		RPN.cpp
+		PmergeMe.cpp 
 
 OBJS = $(SRCS:.cpp=.o)
 
