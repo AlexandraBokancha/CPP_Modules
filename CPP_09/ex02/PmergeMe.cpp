@@ -25,11 +25,9 @@ PmergeMe::~PmergeMe(void){
 }
 
 void PmergeMe::displayArray(){
-    for (std::vector<int>::size_type i = 0; i < _vecArray.size(); ++i) {
-        std::cout << _vecArray[i] << " ";
+    for (std::vector<int>::size_type i = 0; i < _copyVec.size(); ++i) {
+        std::cout << _copyVec[i] << " ";
     }
-    if (_hasStray)
-        std::cout << _leftOver;
     std::cout << std::endl;
 }
 
@@ -202,6 +200,7 @@ void PmergeMe::initArray(int ac, char *av[]){
         else
             throw PmergeMe::NotValidInput();
     }
+    _copyVec = _vecArray;
 }
 
 void PmergeMe::FJMI(int ac, char *av[]){

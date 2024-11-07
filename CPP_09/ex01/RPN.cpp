@@ -84,6 +84,9 @@ void RPN::addition(){
 
 */
 void RPN::evaluateExpression(const std::string & expressionStr){
+    if (expressionStr.empty() == true){
+        throw std::runtime_error("Error: expression is empty");
+    }
     std::stringstream ss(expressionStr);
     std::string val;
     Operations fnPtr[] = {
@@ -106,6 +109,7 @@ void RPN::evaluateExpression(const std::string & expressionStr){
         else
         {
             for (int i = 0; i < 4; ++i){
+                operationFound = false;
                 if (val == tokens[i]){
                     (this->*fnPtr[i])();
                     operationFound = true;

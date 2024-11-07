@@ -15,6 +15,7 @@ class PmergeMe
     private:
 
         std::vector<int>                    _vecArray;
+        std::vector<int>                    _copyVec;
         std::deque<int>                     _deqArray;
 
         std::vector<std::pair<int, int> >   _vecPairs;
